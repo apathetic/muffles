@@ -1,0 +1,726 @@
+<?
+
+if(isset($_REQUEST['submit'])) {
+
+	$send_to = 'wes.hatch@gmail.com';
+	$subject = 'New Muffles Question';
+	$question = $_POST['question'];
+
+	if( strpos($question, 'href') !== false ) {
+		$sent = true;
+		$message = "Muffles hates spam and it makes her/it sad.";
+	} else {
+
+		$additional_headers = 'From: muffles@askmuffles.com'."\r\n".'Reply-To: muffles@askmuffles.com'."\r\n".'X-Mailer: PHP/'.phpversion();
+		$sent = mail($send_to, $subject, $question, $additional_headers);
+
+		if($sent) {
+
+			$message = 'Thanks for asking Muffles a question! She/it is sleeping right
+						now, but should get back to you real soon! Soon...ish. We think you asked:<br /><br />
+						<div id="asked">'.$question.'</div>';
+
+			$response = json_encode( array(
+				'success' => true,
+				'message' => $message
+			));
+
+		} else {
+			$message = 'We encountered an error sending your mail. Muffles must have eaten it';
+
+			$response = json_encode( array(
+				'success' => false,
+				'message' => 'We encountered an error sending your mail. Muffles must have eaten it'
+			));
+		}
+
+	}
+
+	// header('Content-Type: application/json');
+	// echo $response;
+	// exit;
+
+
+}
+
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>Ask Muffles!</title>
+	<link type="text/css" rel="stylesheet" href="muff.css" media="screen" />
+
+	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="js/soundmanager2-nodebug-jsmin.js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-CZJYQQF0BK"></script>
+
+	<script type="text/javascript">
+		soundManager.url = 'media/swf';
+		soundManager.useHTML5Audio = true;
+		soundManager.useFlashBlock = false;
+		soundManager.onload = function() {
+			var meow = soundManager.createSound({
+        id:'meow',
+        url:'media/meow.mp3'
+			});
+
+			$('#muffles').mouseover( function(){
+				console.log('meow');
+				meow.play();
+			});
+		}
+
+		$(document).ready( function() {
+			$('#bubble').hide();
+
+    <? if(!$sent) : ?>
+			$('#askmuffles').hide();
+    <? endif; ?>
+
+			$('#muffles').click( function(){
+				$('#askmuffles').fadeOut(700, function(){
+					$('#bubble').fadeIn(700);
+				})
+			});
+
+			$('#question').click( function(){
+				$('#bubble').fadeOut(700, function(){
+					$('#askmuffles').fadeIn(700);
+				})
+			});
+
+		});
+
+	</script>
+
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-CZJYQQF0BK');
+	</script>
+
+</head>
+<body>
+
+<div id="muffles"> <img src="imgs/1.jpg" alt="" id="mufflesImg" /> </div>
+<div id="question"> <img src="imgs/3.jpg" alt="" id="questionImg" /> </div>
+
+
+<div id="bubble">
+	<div id="q_and_a">
+
+<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		Is muffles the aka for Liana?
+
+
+		<p><span class="Q">Q</span>how tired am i really?</p>
+		<p><span class="A">A</span>The human condition continually questions its fatigue.
+		Emotional strain, self-doubt are common symptoms. You question your tiredness</p>
+
+	:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+
+		<p><span class="Q">Q</span>Dear Muffles<br />
+		Why did my cat poo on my bed?<br />
+		Love,<br />Chloe</p>
+		<p><span class="A">A</span>Well now! What a delightfully refreshing thing your
+		cat did! You should be so happy that he/she/it decided to show you some attention.
+		I know I would be excited if someone pooped on my bed. I'm sure your cat just likes
+		you extra special.<br />
+		Love,<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Es-tu un mâle ou une femelle ? Et si tu es un mâle
+		es-tu castré ? Et si tu es castré es-tu homo ?<br />
+		Le Chat</p>
+		<p><span class="A">A</span>Dear Le Chat,<br />
+		Wow! What funny looking writing your question has! Funny words are hard for
+		me, being just a cat and all. But if I had to try to answer I'd say: "Les
+		questions de sexualité sont indicatif d'un problème d'identité. Probablement, t'as
+		subi une perte de désir, ou l'insécurité sexuelle...peut-être à cause du climat
+		incestueux." Meow!<br />
+		Merci,<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Do you eat dogs ?<br />
+		Marc</p>
+		<p><span class="A">A</span>Well Marc, that's just silly! I can't eat a dog.
+		Ha! Ha!<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>what are the toys called that have a squishy body,
+		that can talk,and they have swirly antennas?</p>
+		<p><span class="A">A</span>My, that's a hard question! After thinking really
+		hard, I'd answer that they're called Beenie Babies, Teddy Ruxpins, and oh! fake bugs.
+		Thanks for your fun question.<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>what are some really funny sick jokes like " if you woke
+		up with grass stains on your kneews and..." yeah you get it?? Eriin</p>
+		<p><span class="A">A</span>Dear Eriin, <br />
+		Ha! Ha! Ha! Ha!  No, I don't really get it.<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>what do you do for fun?<br />Tobias</p>
+		<p><span class="A">A</span>Dear Tobias, <br/>
+		Thank you for your kind question. As you are surely aware, cats are too serious
+		to have "fun". Too serious and, at the same time, too cute. Meow!
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Will Chelsey have fun tonight?
+		<p><span class="A">A</span>Ha Ha! I guess it depends on whether or not Chelsey is
+		a fun-loving gal! Because you had to ask, I'd probably say no, no she won't. Which is sad.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Do you sleep the whole day? (Juan)</p>
+		<p><span class="A">A</span>Dear (Juan), <br />
+		Yes, yes I do. In fact, I sleep more than the whole day.<br />
+		Regards, <br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Catholics tend to take it easy, but Protestants are pushy. Why is that?  Jason</p>
+		<p><span class="A">A</span>Dear Jason, <br />
+		Cat-a-holics are really great people. They are people who really like cats.
+		That's why they are generally relaxed and are fun to be around. I don't think Protestants like
+		cats very much. So, it is easy to see why they are pushy and by nature probably not very
+		fun to be around. I hope that answers your question!<br />
+		Sincerely,<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Will I have a great birthday party for my 30th anniversary?</p>
+		<p><span class="A">A</span>I'm just a cat, but I guess it depends on if your birthday happens to
+		fall on the same date as your anniversary. If so, then no, probably not.</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>what is a dog</p>
+		<p><span class="A">A</span>A dog is a big smelly animal that is not so very smart and has questionable
+		hygiene. Oh, and they are not very cute at all.
+
+		<hr />
+
+		<p><span class="Q">Q</span>What is Charlie Sheen's favorite color?
+		<p><span class="A">A</span>My, what a difficult question. It's true that I don't know colours so well, but
+		if I had to guess, I would say that it is some sort of sheen of charcoal.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>What is the best way to tell someone No.</p>
+		<p><span class="A">A</span>Dear So-and-so,<br />
+		Lots of hissing and scratching.<br />
+		Good luck,<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>What kind of cat(?) are you?</p>
+		<p><span class="A">A</span>Ha ha, it is a very good question! Well, to answer,
+		let me just say that I am a <i>cute</i> cat!</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Hey Muffles, is everything really subjective?</p>
+		<p><span class="A">A</span>Your question goes right to the heart of solipsism. If we consider
+		one's own experience to form the basis of their worldview, then another's experiences can only
+		be inferred by analogy. Objective reality is not necessarily an impossibility in this instance,
+		yet in considering it as such you are implicitly rejecting any knowledge based on experiences
+		external to your own mind.<br />
+		You're reading this, aren't you?<br />
+		Now do you understand?<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Justin asks, why do you not like dogs</p>
+		<p><span class="A">A</span>Dear So-and-so,<br />
+		Please tell Justin that dogs are big and dumb and smelly. Anyone who likes
+		dogs is probably big and dumb and smelly, too. Haven't you noticed?
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Dear Muffles, <br />
+		Do you really need to wait 5 seconds before you open the microwave door? <br />
+		Thanks very much,<br />
+		Tippi Hedren</p>
+		<p><span class="A">A</span>Dearest Tippi,<br />
+		My, what a curious question! To answer, I'd say, "of course not!". The faster you
+		open the door, the faster you can have warmed cat food. Doesn't that sound nice?<br />
+		Meow!
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Dear Muffles, <br />
+		I heard that eating aspartame causes anal leakage?  Is this true? <br />
+		sincerely,<br />
+		concerned diet dr pepper drinker</p>
+		<p><span class="A">A</span>
+		Well, let me see. It's good to be concerned if you're a diet Dr. Pepper drinker,
+		Mr. diet dr pepper drinker. However, you sound like a person who worries a lot.
+		That gives you wrinkles. Personally, I would just stop thinking about all those
+		nasty, troubling thoughts and just do whatever feels good. That's what cats do.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Hi Muffles - long time no see!
+		I was just wondering . . . would you rather be a unicorn for a day (with all the magical powers included) OR sing like your
+		favorite singer forever. <br />
+		Sincerely, <br />
+		Moxi Fruvous</p>
+		<p><span class="A">A</span>
+		Aw, that's a terribly hard question! You mean I can't be a cat and have to choose one? Well, while singing like my favorite singer
+		(Cat Stevens) forever certainly sounds appealing, I'd have to choose neither and stay a cat. Thanks for your question!
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Muffles, What is the most polluting country in the world?<br />-Kathryn</p>
+		<p><span class="A">A</span>Dear Kathryn,
+		Well, I don't know about countries &#8212; I am a cat after all, but my owner is always making a funny smell with her
+		bum. It certainly pollutes the environment around here, let me tell you. <br />
+		Sincerely,<br />
+		Muffles</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>julie wants to know if phantex is good the environment.</p>
+		<p><span class="A">A</span>Dear So-and-so,<br />
+		That's a funny question! Phantex certainly sounds good to me. But what about the environment? I fixed the punctuation in
+		your sentence so that it makes sense to me. (But I am a cat after all!) <br /><i>"julie" wants to know if: phantex is good!
+		the environment!</i> <br />Ha ha! Yes, the environment.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>what will the weather be like tomorrow?</p>
+		<p><span class="A">A</span>Ha! Ha! What a funny question! It's always 21 degrees inside, where I live.<br />
+		Best wishes,<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>why don't you wake up?</p>
+		<p><span class="A">A</span>Dear So-and-so,<br />
+		I am a Cat. I like to sleep for much of the day. It is very hard work being a Cat. I also like tuna.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>what is the meaning of life</p>
+		<p><span class="A">A</span>Well! Let me just say that your statement is incorrect. "What" is not the
+		meaning of life. For a cat, eating and sleeping is. I am a cat and I like to eat and sleep a lot. Ha!
+		Ha! Isn't that funny?
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Does John love me?</p>
+		<p><span class="A">A</span>No. Because love for humans is an illusion. Schopenhaeur claimed that falling in love
+		is the result of a "blind biological urge" in us. It is this basic instinct that binds men and women together &#8212;
+		hence the illusionary nature of love. While many believe (falsely) that love is magical, sweet, sensational and is a
+		symbol of happiness, Schopenhauer believed that the truth is ugly: marriage is a trap to confine couples together, while
+		living as a husband and wife means you sacrifice your rights in exchange for double the duties.
+		<br />
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Hi muffles,<br />Yannikc has a question : Can you answer it?</p>
+		<p><span class="A">A</span>Dear So-and-so,<br />
+		Yes. I am very good at answering questions. I am also a very pretty cat.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Hi, Doggy wants to know what "arf" means.</p>
+		<p><span class="A">A</span>Dear Doggy,<br />
+		ARF could be one of several things. Most commonly arf, or A.R.F., is an acronym used to refer to:
+		Acute renal failure, Acute respiratory failure, or Acute rheumatic fever. Do you see a pattern here?
+		Me, neither. Thanks for your question. Meow!
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>my name is Cheri. How do cats purr?</p>
+		<p><span class="A">A</span>Dear Cheri,<br />
+		Well! It is a very good question. Basically, we go like this (makes purring sound). Do you see? I close my eyes and
+		(makes purring sound) and that is how cats purr.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>hi muffles,<br />
+		sometimes i pick my nose and eat it when no one is looking, but maybe there is someone looking that i just can't see!
+		i am worried, but i don't want to stop picking and eating my nose. what should i do??<br />
+		Me.</p>
+		<p><span class="A">A</span>Dear Me,<br />
+		That's easy. Stop caring what other people think. I certainly don't (you included).	<br />
+		Best wishes,<br />
+		Muffles
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Aidan wants to know why her back hurts?
+		<p><span class="A">A</span>Dear Aidan-in-the-3rd-person,<br />
+		Let me just say it is probably because you are old and wrinkly. I just can't imagine a healthy human having a sore back.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Hi muffles,<br />
+		do you ever answer any questions?</p>
+		<p><span class="A">A</span>Dear So-and-So,<br />
+		Well, I love answering questions. But I sleep so much that sometimes it seems like it takes me a long time. Humans are so impatient.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Hi Muffles,<br />
+		will I one day own a Bentley car?</p>
+		<p><span class="A">A</span>Dear So-and-So,<br />
+		Ha ha! Cats don't know the future. But since you seem worrying and insecure, I'd say no. No, you won't.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>What are you?<br />
+		Michael</p>
+		<p><span class="A">A</span>Dear Michael,<br />
+		Well, now! Is it not obvious? I am a cat! And I am the cutest cat! Ha ha! Sometimes people can be so silly. You're silly, Micheal.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Which are better in the eyes of the lord: cats are pigeons?<br />
+		Love: Space Camp</p>
+		<p><span class="A">A</span>Dear Space Camp,<br />
+		Thank you for you nice letter. First, let me help you a little bit: cats are not pigeons! You can tell because cats (like me) are cute and meow,
+		while pigeons stink and eat garbage. And also: neither are better in the eyes of the lord! That's silly! If the lord's eyes hurt, maybe he can
+		put eye-drops in instead.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>What are your favorite rap artists?</p>
+		<p><span class="A">A</span>Dear So-and-So,<br />
+		That's easy! None! They all hurt my cat ears. I prefer meow-ing.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Dear Muffles<br />
+		Is it good manners to offer beers to your friends when they visit?<br />
+		Yours, Beerless</p>
+		<p><span class="A">A</span>Dear Beerless,<br />
+		No, cats don't drink beer! They drink water and sometimes milk. If I had some milk to give my cat friends, though, I still wouldn't offer it.
+		It's mine.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />
+		Why do people not understand there is no god and death is just the end.<br />
+		From: Reality</p>
+		<p><span class="A">A</span>Dear Reality,<br />
+		The existential reality you address is commonly called atheism. This practice rejects all other theisms and proffers that God does not exist.
+		Now, when you speak of "understanding", perhaps you refer to how widespread this practice is in an ever-increasing agnostic population? For example,
+		a member of a mono- or a polytheistic belief would perhaps understand death to only be the beginning, while an atheist would understand the opposite.
+		Understanding&#8212;in the particular instance you raise above&#8212;is then just a function of how prevalent a particular belief system is in our society.
+		</p>
+
+		<hr />
+
+		<p><span class="Q">Q</span>Are there any other muffles?<br />
+		The other muffles</p>
+		<p><span class="A">A</span>Dear the other muffles, <br />
+		No.<br />
+		Best wishes,<br />
+		Muffles
+		</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>What should I eat?</p>
+		<p><span class="A">A</span>Well, now! I think I've addressed this question before! Why not read the
+		thoughtful, insightful and witty information herein first and perhaps you could learn a thing or two?<br />
+		</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>shall i dump shannon and ask nicky to go out with me<br />
+		<p><span class="A">A</span>Dear "  " <br />
+		Well, what an interesting dilemma! From how you've described her, it certainly sounds like Nicky
+		is an attractive, intelligent and caring young girl. But why break up with Shannon, a creative, loving, and
+		funny human female? She sounds really terrific. I say keep Shannon and ask Nicky out as well. I have all sorts of tomcats that I'm partial to, why not keep them all?<br />
+		Sincerely,<br />
+		Muffles
+		</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />
+		If you arouse a monster, do you call that "cock monster?"<br />
+		Love,</p>
+		<p><span class="A">A</span>Dear ,<br />
+		Well, seeing as I'm just a nice cat I've never aroused a cock monster (or any monster for that matter).
+		But I suppose that if I did I would call it "Roger" or "John Thomas". Meow meow!<br />
+		Thanks for your nice letter.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>	Dear Muffles,<br />
+		Should I have someone design nice eyebrows for me? <br />
+		What if they do something not pretty !?</p>
+		<p><span class="A">A</span>Dear So-and-So,<br />
+		What do you mean "design nice eyebrows"? I didn't realize it was possible to engage in such a mundane task
+		such as designing eyebrows. You humans are allll so simple-minded. Why not shave all the hair off of your
+		head and never worry about it again? I'm sure you'll still be pretty.<br />
+		Sincerely, <br />
+		Muffles<br />
+		P.S. I meant pretty <i>ugly</i>.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />
+		What is your favorite constellation? <br />
+		Why?<br /><br />
+		deSiRe
+		<p><span class="A">A</span>Dear deSiRe, <br />
+		What an silly question. Please!<br />
+		Sincerely, <br />
+		Muffles<br />
+		P.S.  What's a constellation?</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Is it wrong if they don't match? Like, if one's bigger than the other and is a slightly different color? Is it weird for guys to see that, and then, um, go ahead and touch them anyway?<br />
+		Sincerely,<br />
+		I'm Talking About My Socks Pervert</p>
+		<p><span class="A">A</span>Dear I'm Talking About My Socks Pervert,<br />
+		Oh my, what a funny name you have. How ever did you come about it? You must certainly like talking about socks. Do you think
+		this implies an unnatural interest in superficial and trivial elements in your life, perhaps? You remind me of my cat-friend Cannot-Stop-Licking-Himself, who, interestingly, couldn't
+		stop licking himself. But why the "pervert"? Clearly, you are a pervert who likes socks...and has a foot fetish perhaps? As a cat, this
+		is really strange for me to understand, but my owner sometimes massages strangers' feet so I am used to it. Humans are so strange.<br />
+		Cautious regards,<br />
+		Muffles</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />Is Jesus gay, or is it just me? I mean, come on! He's got long hair and whatnot.<br />
+		Why does everyone from the South Shore speak like they're from Goodfellas?<br />
+		Come on!<br />Love you Muffles.<br />So and so.</p>
+		<p><span class="A">A</span>Dear So and so, <br />Well! That's very amazing! Usually it is very rare for a cat to meet a human with the
+		kind of insight you've displayed! Yes, the one you call "Jesus" is indeed gay. You can tell because he also wears a dress.<br />
+		Now, to answer your second question about everyone from the South Shore. Well, let me just say that yes, they do speak like
+		they are good fellows!<br />
+		Sincerely, <br />
+		Muffles
+		</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Muffles, is there such thing as absolute truth?<br />
+		Regards, Esquire</p>
+		<p><span class="A">A</span>Absolutely (although I may be lying).</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>I live in a foreign country and I have few friends...and I feel uninspired to make art...can you help
+		me Muffles? <br />Your friend, deSiRe</p>
+		<p><span class="A">A</span>Dear deSiRe, <br />Well, I hardly know how a cat could help you make art. But don't worry &#8212; feeling
+		lazy and uninspired is perfectly normal. Most of us feel this way our entire lives, and to feel any different is, well, wrong. So
+		I say to you: stop worrying and whining about being lazy. Just accept it! When everyone sees how much more relaxed you are as a
+		result, you're sure to win more friends. Meow!<br />
+		Regards, <br />Muffles
+		</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffler, <br />I need a new muffler for winter. What fabric should I get to make one?
+		Should I get a cat hair muffler? <br />Signed, <br />Muffy</p>
+		<p><span class="A">A</span>Dear Muffy, <br />Oh, dear! How horrible! Poor humans get so cold in the winter. Luckily,
+		cats don't have that problem. Instead of getting a muffler, why don't you just stay inside until June? You sound like
+		the kind of person who has trouble making decisions, so I hope that helps.<br />Sincerely, <br />Muffles</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles, <br />Have you seen the musical "CATS"?  If so, what were your impressions of
+		it (artistic merit-wise) and secondly, how do you feel about the appropriation of cat culture in mainstream musical
+		theatre?<br />Yours, <br />Pickles</p>
+		<p><span class="A">A</span>Dear Pickles, <br />Ha ha! That's sure a lot of big, funny words! Well, to answer your funny
+		question, yes, I certainly am a cat!<br />
+		Thanks for your letter.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>If I am suddenly obsessed with yarn and mice and have hair growing on my body
+		excessively, am I a cat?</p>
+		<p><span class="A">A</span>Dear so and so,<br />
+		No, because cats can't talk.<br />Sincerely, Muffles</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Why is mao reading my blog? (abby)</p>
+		<p><span class="A">A</span>Dear (abby),<br />
+		Mao? Don’t you mean "meow"? Ha ha ha ha.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Muffles, who am I?</p>
+		<p><span class="A">A</span>To ask who am I is to delve into the depth of the human ego. There are 2 other components
+		which comprise human behaviour, according to Freud. The Id and the Superego. Together these 3 make up a meow mix of
+		personality. I’d say you were about 90 percent Id, 3 percent Ego and 12 percent Super ego.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />
+		What is your sixth sense? Do I have six senses?</p>
+		<p><span class="A">A</span>Dear so and so,<br />
+		Thanks for asking, I would say that my sixth sense is cuteness.  Unfortunately, humans only have 3 senses &#8212; one of
+		them allows you to see dead people.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Gosh Muffles, how did you get so darned cute?</p>
+		<p><span class="A">A</span>Tee hee, thanks for your purrfect question.  Well let me just say that I'm a cat.
+
+		<hr>
+
+		<p><span class="Q">Q</span> Muffles, I love you! I want to take you and stroke your inner thighs all day! Do you
+      	like that?</p>
+		<p><span class="A">A</span>Dear so and so, oh how nice! But cats don’t have thighs, so they certainly don’t have
+		inner thighs! But your sentiment is very sweet. Thank you for your letter.
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />
+		If you went to Jeans! Jeans! Jeans! and saw a sign that said "buy one get one
+		free" and they were really nasty golf shorts that were buy one get one free,
+		would you buy one pair to get the other pair free? Just thinking about the
+		summer bargains and whatnot.<br />
+		Thanks Muffles, you're so cute!<br />
+		Signed,<br />
+		Sasquatch<br /></p>
+		<p><span class="A">A</span>Dear Sasquatch,<br />
+		No.<br />
+		Sincerely,<br />
+		Muffles<br /></p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles, <br />If you went camping with your buddies and woke up in the
+		morning hungover with your pants around your ankles, grass-stains on your knees, a used condom hanging
+		from your ass, and no memory of the nights events, would you tell anyone?</p>
+		<p><span class="A">A</span>Ha ha! That's a silly question! Cats don't go camping!</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles, <br />How is it that the circumference of an ant's circumcision
+		is not the same as that of an elephants, relatively speaking?<br />Signed,<br />Big Fan!</p>
+		<p><span class="A">A</span>Dear Big Fan, I'm not sure what you're talking about exactly &#8212; it's all very
+		confusing for a cat &#8212; but I guess it is because ants and elephants are not the same, relatively speaking.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles, <br />What should I eat for dinner?</p>
+		<p><span class="A">A</span>Good question! This is the best question ever! Let me say that I think about this
+		subject often, for much of the day. After sleeping on the matter, and pondering it, I generally come to the conclusion that
+		I will eat...whatever my owner gives me. Meow!</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles, <br /> What do you think I should do?</p>
+		<p><span class="A">A</span>Dear anonymous, well to ask "what should I do" is to delve into the depths of the human
+		psyche. There are those of us who believe that one's actions reflect the nature of their beliefs, whereas others would
+		argue that our actions are alien to one's experiences. Kirkegaard posits that true knowledge is gained through one's
+		experiences, thus "doing" contributes to one's truth.  Now I ask you stranger, what do you think I think you should do?</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles, <br />Should I go to the water slides even if it's cold and raining?</p>
+		<p><span class="A">A</span>Cats don't like the cold and the rain, or the water for that matter.  Why not stay inside
+		and watch TV even if it's sunny? Meow meow Meow.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />Does it make me a slut if I did a line of coke off a hard cock... without a
+		straw?</p>
+		<p><span class="A">A</span>Drinking soda off a chicken? I don't understand why that would make you a slut. Anyway, cats
+		prefer the term "queen" &#8212; that's a female cat.</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />Are you sleeping, or just too wise to open your eyes all the way?</p>
+		<p><span class="A">A</span>Well, let me just say that cats are the wisest of all the animals. I never open my eyes when
+		I'm sleeping. That's silly!</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />How much?</p>
+		<p><span class="A">A</span>Oh my! How much...what? How much love is there in Muffles' heart, perhaps? Well,
+		there is lots and lots of love in my heart! Enough for everyone, everywhere! (except the Jews).</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />Is 14 old enough?</p>
+		<p><span class="A">A</span>Why, thank you for your kind letter! Meeeeow! In answer to your lovely question: 14 in cat years
+		is like 110, so yes! In fact, 14 is way too old!</p>
+
+		<hr>
+
+		<p><span class="Q">Q</span>Dear Muffles,<br />can cats get herpes?<br /> Sincerely, Bob</p>
+		<p><span class="A">A</span>Hi Bob! Ha ha! That's a funny question!</p>
+	</div>
+</div>
+
+<div id="askmuffles">
+<? if($sent) : echo $message; /* ajax schmajax */ ?>
+<? else : ?>
+	<h1> Hi! Ask Muffles a question and she/it will <br />respond as soon as she/it can! </h1>
+	<form id="ask" action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+		<textarea name="question" rows="20" cols="80">Write your question here! (Don't forget your name!)</textarea><br />
+		<input name="submit" type="hidden" value="1" />
+		<input type="submit" value="Ask Muffles!" />
+	</form>
+<? endif; ?>
+</div>
+
+
+</body>
+</html>
