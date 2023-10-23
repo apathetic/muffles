@@ -1,49 +1,3 @@
-<?
-
-if(isset($_REQUEST['submit'])) {
-
-	$send_to = 'wes.hatch@gmail.com';
-	$subject = 'New Muffles Question';
-	$question = $_POST['question'];
-
-	if( strpos($question, 'href') !== false ) {
-		$sent = true;
-		$message = "Muffles hates spam and it makes her/it sad.";
-	} else {
-
-		$additional_headers = 'From: muffles@askmuffles.com'."\r\n".'Reply-To: muffles@askmuffles.com'."\r\n".'X-Mailer: PHP/'.phpversion();
-		$sent = mail($send_to, $subject, $question, $additional_headers);
-
-		if($sent) {
-
-			$message = 'Thanks for asking Muffles a question! She/it is sleeping right
-						now, but should get back to you real soon! Soon...ish. We think you asked:<br /><br />
-						<div id="asked">'.$question.'</div>';
-
-			$response = json_encode( array(
-				'success' => true,
-				'message' => $message
-			));
-
-		} else {
-			$message = 'We encountered an error sending your mail. Muffles must have eaten it';
-
-			$response = json_encode( array(
-				'success' => false,
-				'message' => 'We encountered an error sending your mail. Muffles must have eaten it'
-			));
-		}
-
-	}
-
-	// header('Content-Type: application/json');
-	// echo $response;
-	// exit;
-
-
-}
-
-?>
 
 
 <!DOCTYPE html>
@@ -58,6 +12,8 @@ if(isset($_REQUEST['submit'])) {
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-CZJYQQF0BK"></script>
 
 	<script type="text/javascript">
+		var sent = false;
+
 		soundManager.url = 'media/swf';
 		soundManager.useHTML5Audio = true;
 		soundManager.useFlashBlock = false;
@@ -73,12 +29,39 @@ if(isset($_REQUEST['submit'])) {
 			});
 		}
 
+		function handleSubmit(e) {
+			e.preventDefault();
+
+			var question = e.target;
+			var formData = new FormData(question);
+
+			fetch('/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				body: new URLSearchParams(formData).toString(),
+			})
+			.then(() => {
+				// console.log('Form successfully submitted')
+				var success = `
+					<p>Thanks for asking Muffles a question!</p>
+					<p>She/it is sleeping	right now, but should get back to you real soon! Soon...ish.</p>
+					<p>We think	you asked:<br /><br /><span id="asked">${formData.get('question')}</span></p>`;
+
+				$('#askmuffles').html(success);
+			})
+			.catch((error) => {
+			  // alert(error)
+				console.log(error);
+				$('#askmuffles').html(`We encountered an error sending your mail. Muffles must have eaten it`);
+			});
+		};
+
 		$(document).ready( function() {
 			$('#bubble').hide();
 
-    <? if(!$sent) : ?>
+      // <? if(!$sent) : ?>
 			$('#askmuffles').hide();
-    <? endif; ?>
+      // <? endif; ?>
 
 			$('#muffles').click( function(){
 				$('#askmuffles').fadeOut(700, function(){
@@ -92,9 +75,14 @@ if(isset($_REQUEST['submit'])) {
 				})
 			});
 
+			document
+				.querySelector('form')
+				.addEventListener('submit', handleSubmit);
+
 		});
 
 	</script>
+
 
 	<script>
 		window.dataLayer = window.dataLayer || [];
@@ -114,7 +102,7 @@ if(isset($_REQUEST['submit'])) {
 <div id="bubble">
 	<div id="q_and_a">
 
-<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		Is muffles the aka for Liana?
 
 
@@ -710,15 +698,15 @@ if(isset($_REQUEST['submit'])) {
 </div>
 
 <div id="askmuffles">
-<? if($sent) : echo $message; /* ajax schmajax */ ?>
-<? else : ?>
+<!-- <? if($sent) : echo $message; /* ajax schmajax */ ?> -->
+<!-- <? else : ?> -->
 	<h1> Hi! Ask Muffles a question and she/it will <br />respond as soon as she/it can! </h1>
-	<form id="ask" action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+  <form id="ask" name="muffles" method="POST" data-netlify="true">
 		<textarea name="question" rows="20" cols="80">Write your question here! (Don't forget your name!)</textarea><br />
 		<input name="submit" type="hidden" value="1" />
 		<input type="submit" value="Ask Muffles!" />
 	</form>
-<? endif; ?>
+<!-- <? endif; ?> -->
 </div>
 
 
